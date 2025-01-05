@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "548641420453",
+    "project_id": "sleeping-tracker-ea15c",
+    "storage_bucket": "sleeping-tracker-ea15c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548641420453:android:89c042b45be3b782db094c",
+        "android_client_info": {
+          "package_name": "com.example.sleeping_pills"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxSYoUeaZiBUBySbMKwqT9tGmhmAa9Q6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
