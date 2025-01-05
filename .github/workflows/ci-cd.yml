@@ -10,8 +10,9 @@ on:
 
 jobs:
   build:
-    name: Build APK
-    runs-on: ubuntu-latest
+    # Sử dụng Ubuntu runner cho Android và macOS runner cho iOS
+    runs-on: ubuntu-latest  # Có thể đổi thành macOS nếu cần cho iOS
+
     steps:
     # 1. Checkout code từ repo
     - uses: actions/checkout@v3
@@ -23,24 +24,13 @@ jobs:
         flutter-version: '3.27.1'  # Cập nhật phiên bản Flutter mới nhất
 
     # 3. Cài đặt dependencies
-    - run: flutter pub get
+    - name: Install dependencies
+      run: flutter pub get
 
     # 4. Kiểm tra mã nguồn (test)
-    - run: flutter test
+    - name: Run tests
+      run: flutter test
 
-    # 5. Build APK (Release) cho Android
-    - run: flutter build apk --release --split-per-abi
-
-    # 6. Tải APK lên dưới dạng artifact
-    - name: Upload APK as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: release-apk
-        path: build/app/outputs/flutter-apk/*.apk
-
-    # 7. Tạo release và tải APK lên GitHub Releases
-    - name: Create a Release APK
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/flutter-apk/*.apk"
-        token: ${{ secrets.TOKEN }}
+    # 5. Build APK cho Android (Release)
+    - name: Build APK
+      run: flutter build apk --release
