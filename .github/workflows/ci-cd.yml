@@ -1,4 +1,4 @@
-name: CI/CD for Flutter
+name: Test, Build and Release APK
 
 on:
   push:
@@ -10,45 +10,37 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
-
+    name: Build APK
+    runs-on: ubuntu-latest
     steps:
     # 1. Checkout code từ repo
-    - name: Checkout code
-      uses: actions/checkout@v3
-
+    - uses: actions/checkout@v3
+    
     # 2. Thiết lập Flutter
     - name: Setup Flutter
-      uses: flutter-actions/setup-flutter@v3
+      uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.27.1'
+        flutter-version: '3.27.1'  # Cập nhật phiên bản Flutter mới nhất
 
     # 3. Cài đặt dependencies
-    - name: Install dependencies
-      run: flutter pub get
+    - run: flutter pub get
 
     # 4. Kiểm tra mã nguồn (test)
-    - name: Run tests
-      run: flutter test
+    - run: flutter test
 
-    # 5. Build APK cho Android (Release)
-    - name: Build APK (Release)
-      run: flutter build apk --release
+    # 5. Build APK (Release) cho Android
+    - run: flutter build apk --release --split-per-abi
 
     # 6. Tải APK lên dưới dạng artifact
     - name: Upload APK as artifact
       uses: actions/upload-artifact@v3
       with:
         name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: build/app/outputs/flutter-apk/*.apk
 
-    # 7. Build cho iOS (Release)
-    - name: Build iOS (Release)
-      run: flutter build ios --release --no-codesign
-
-    # 8. Tải file IPA lên dưới dạng artifact
-    - name: Upload IPA as artifact
-      uses: actions/upload-artifact@v3
+    # 7. Tạo release và tải APK lên GitHub Releases
+    - name: Create a Release APK
+      uses: ncipollo/release-action@v1
       with:
-        name: release-ipa
-        path: build/ios/iphoneos/Runner.app
+        artifacts: "build/app/outputs/flutter-apk/*.apk"
+        token: ${{ secrets.TOKEN }}
