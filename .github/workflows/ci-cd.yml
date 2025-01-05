@@ -1,4 +1,4 @@
-name: CI/CD for Flutter
+name: Test, Build and Release APK
 
 on:
   push:
@@ -10,19 +10,18 @@ on:
 
 jobs:
   build:
-    # Sử dụng macOS runner để build iOS và Android
-    runs-on: macos-latest
+    # Sử dụng Ubuntu runner cho Android và macOS runner cho iOS
+    runs-on: ubuntu-latest  # Có thể đổi thành macOS nếu cần cho iOS
 
     steps:
     # 1. Checkout code từ repo
-    - name: Checkout code
-      uses: actions/checkout@v3
-
+    - uses: actions/checkout@v3
+    
     # 2. Thiết lập Flutter
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: 'stable'
+        flutter-version: '3.27.1'  # Cập nhật phiên bản Flutter mới nhất
 
     # 3. Cài đặt dependencies
     - name: Install dependencies
@@ -33,23 +32,5 @@ jobs:
       run: flutter test
 
     # 5. Build APK cho Android (Release)
-    - name: Build APK (Release)
+    - name: Build APK
       run: flutter build apk --release
-
-    # 6. Tải APK lên dưới dạng artifact
-    - name: Upload APK as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
-    # 7. Build cho iOS (Release)
-    - name: Build iOS (Release)
-      run: flutter build ios --release --no-codesign
-
-    # 8. Tải file IPA lên dưới dạng artifact
-    - name: Upload IPA as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: release-ipa
-        path: build/ios/iphoneos/Runner.app
