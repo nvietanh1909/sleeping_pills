@@ -10,7 +10,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Sử dụng macOS runner để build iOS và Android
+    runs-on: macos-latest
 
     steps:
     # 1. Checkout code từ repo
@@ -23,10 +24,32 @@ jobs:
       with:
         flutter-version: 'stable'
 
-    # 3. Chạy lệnh Flutter pub get
+    # 3. Cài đặt dependencies
     - name: Install dependencies
       run: flutter pub get
 
-    # 4. Build và kiểm tra ứng dụng
+    # 4. Kiểm tra mã nguồn (test)
     - name: Run tests
       run: flutter test
+
+    # 5. Build APK cho Android (Release)
+    - name: Build APK (Release)
+      run: flutter build apk --release
+
+    # 6. Tải APK lên dưới dạng artifact
+    - name: Upload APK as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
+    # 7. Build cho iOS (Release)
+    - name: Build iOS (Release)
+      run: flutter build ios --release --no-codesign
+
+    # 8. Tải file IPA lên dưới dạng artifact
+    - name: Upload IPA as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: release-ipa
+        path: build/ios/iphoneos/Runner.app
