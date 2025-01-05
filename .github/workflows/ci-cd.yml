@@ -1,0 +1,32 @@
+name: CI/CD for Flutter
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout code từ repo
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Thiết lập Flutter
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
+
+    # 3. Chạy lệnh Flutter pub get
+    - name: Install dependencies
+      run: flutter pub get
+
+    # 4. Build và kiểm tra ứng dụng
+    - name: Run tests
+      run: flutter test
