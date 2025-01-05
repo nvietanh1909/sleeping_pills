@@ -69,8 +69,8 @@ class _SleepScreenState extends State<SleepScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 19, 7, 83), 
-              Color.fromARGB(255, 17, 17, 39)// Xanh đen
+              Color.fromARGB(255, 13, 5, 59),
+              Color.fromARGB(255, 17, 17, 39),
             ],
           ),
         ),
@@ -99,25 +99,48 @@ class _SleepScreenState extends State<SleepScreen> {
                     interval: 6,
                     startAngle: 270,
                     endAngle: 270,
+                    radiusFactor: 0.9,
+                    axisLineStyle: AxisLineStyle(
+                      thickness: 30,
+                      color: Colors.grey[800],
+                    ),
                     showLabels: true,
                     showTicks: true,
                     axisLabelStyle: GaugeTextStyle(
-                      fontSize: 14,
+                      fontSize: 18,
+                      color: Colors.white70,
+                    ),
+                    minorTicksPerInterval: 4, // Thêm 4 vạch nhỏ giữa mỗi vạch lớn
+                    majorTickStyle: MajorTickStyle(
+                      length: 15,
+                      thickness: 2,
+                      color: Colors.white,
+                    ),
+                    minorTickStyle: MinorTickStyle(
+                      length: 10,
+                      thickness: 1.5,
                       color: Colors.white70,
                     ),
                     ranges: <GaugeRange>[
                       GaugeRange(
                         startValue: _bedtime,
                         endValue: _alarm,
-                        color: Colors.blueAccent.withOpacity(0.8),
-                      )
+                        gradient: SweepGradient(
+                          colors: [Colors.deepPurple, const Color.fromARGB(255, 22, 34, 146)],
+                          stops: [0.0, 1.0],
+                        ),
+                        startWidth: 30,
+                        endWidth: 30,
+                      ),
                     ],
                     pointers: <GaugePointer>[
-                      // Pointer cho Bedtime
+                      // Pointer cho Bedtime (Vòng tròn biểu tượng cho Bedtime)
                       MarkerPointer(
                         value: _bedtime,
                         markerType: MarkerType.circle,
-                        color: Colors.lightBlueAccent,
+                        color: Colors.lightBlueAccent, // Màu cho vòng tròn biểu tượng Bedtime
+                        markerHeight: 28,
+                        markerWidth: 28,
                         onValueChanged: (value) {
                           setState(() {
                             _bedtime = value;
@@ -125,11 +148,13 @@ class _SleepScreenState extends State<SleepScreen> {
                         },
                         enableDragging: true,
                       ),
-                      // Pointer cho Alarm
+                      // Pointer cho Alarm (Vòng tròn biểu tượng cho Alarm)
                       MarkerPointer(
                         value: _alarm,
                         markerType: MarkerType.circle,
-                        color: Colors.redAccent,
+                        color: Colors.redAccent, // Màu cho vòng tròn biểu tượng Alarm
+                        markerHeight: 28,
+                        markerWidth: 28,
                         onValueChanged: (value) {
                           setState(() {
                             _alarm = value;
@@ -138,6 +163,15 @@ class _SleepScreenState extends State<SleepScreen> {
                         enableDragging: true,
                       ),
                     ],
+                    onAxisTapped: (value) {
+                      setState(() {
+                        if ((value - _bedtime).abs() < (value - _alarm).abs()) {
+                          _bedtime = value; // Cập nhật giá trị nếu gần _bedtime
+                        } else {
+                          _alarm = value; // Cập nhật giá trị nếu gần _alarm
+                        }
+                      });
+                    },
                   ),
                 ],
               ),
