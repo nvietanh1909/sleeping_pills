@@ -1,0 +1,33 @@
+name: CI/CD for Staging Environment
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  staging-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.27.1'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run tests
+      run: flutter test
+
+    - name: Build application for Staging
+      run: flutter build apk --flavor staging -t lib/main_staging.dart
+
+    - name: Deploy to Staging Server
+      run: |
+        scp ./build/app/outputs/flutter-apk/app-staging.apk user@staging-server:/path/to/project
+        ssh user@staging-server 'pm2 restart app'

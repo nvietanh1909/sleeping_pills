@@ -1,0 +1,33 @@
+name: CI/CD for Develop
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  dev-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.27.1'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run tests
+      run: flutter test
+
+    - name: Build application for Dev
+      run: flutter build apk --flavor development -t lib/main_dev.dart
+
+    - name: Deploy to Dev Server
+      run: |
+        scp ./build/app/outputs/flutter-apk/app-development.apk user@dev-server:/path/to/project
+        ssh user@dev-server 'pm2 restart app'

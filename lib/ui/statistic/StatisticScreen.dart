@@ -2,26 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart'; // Thêm package này để vẽ biểu đồ
 
 class StatisticScreen extends StatefulWidget {
+  const StatisticScreen({super.key});
+
   @override
   _StatisticScreenState createState() => _StatisticScreenState();
 }
 
 class _StatisticScreenState extends State<StatisticScreen> {
-  List<SleepData> _sleepDataWeek = [
-    SleepData('Mon', 8.0),
+  final List<SleepData> _sleepDataWeek = [
+    SleepData('Mon', 8),
     SleepData('Tue', 7.5),
     SleepData('Wed', 8.5),
-    SleepData('Thu', 7.0),
+    SleepData('Thu', 7),
     SleepData('Fri', 6.5),
-    SleepData('Sat', 9.0),
+    SleepData('Sat', 9),
     SleepData('Sun', 7.8),
   ];
 
-  List<SleepData> _sleepDataMonth = [
-    SleepData('Week 1', 55.0),
-    SleepData('Week 2', 60.0),
-    SleepData('Week 3', 65.0),
-    SleepData('Week 4', 55.0),
+  final List<SleepData> _sleepDataMonth = [
+    SleepData('Week 1', 55),
+    SleepData('Week 2', 60),
+    SleepData('Week 3', 65),
+    SleepData('Week 4', 55),
   ];
 
   bool isWeekView = true; // Điều khiển việc xem tuần hay tháng
@@ -30,11 +32,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weekly Sleep Statistics'),
+        title: const Text('Weekly Sleep Statistics'),
         backgroundColor: Colors.deepPurple,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -48,10 +50,10 @@ class _StatisticScreenState extends State<StatisticScreen> {
                       isWeekView = true;
                     });
                   },
-                  child: Text("Week View"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isWeekView ? Colors.deepPurple : Colors.grey,
                   ),
+                  child: const Text('Week View'),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -59,22 +61,22 @@ class _StatisticScreenState extends State<StatisticScreen> {
                       isWeekView = false;
                     });
                   },
-                  child: Text("Month View"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: !isWeekView ? Colors.deepPurple : Colors.grey,
                   ),
+                  child: const Text('Month View'),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Biểu đồ cột thống kê giấc ngủ hàng tuần hoặc tháng
-            Container(
+            SizedBox(
               height: 300,
               child: SfCartesianChart(
                 primaryXAxis: CategoryAxis(),
                 primaryYAxis: NumericAxis(
-                    minimum: 0, maximum: 10, interval: 1, labelFormat: '{value} hrs'),
+                    minimum: 0, maximum: 10, interval: 1, labelFormat: '{value} hrs',),
                 series: <CartesianSeries>[
                   ColumnSeries<SleepData, String>(
                     dataSource: isWeekView ? _sleepDataWeek : _sleepDataMonth,
@@ -86,30 +88,30 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Tổng thời gian ngủ trong tuần hoặc tháng
             Text(
               'Total Sleep Time: ${_calculateTotalSleep()} hours',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             // Thời gian ngủ trung bình mỗi ngày
             Text(
               'Average Sleep Time: ${_calculateAverageSleep()} hours',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             // Sleep Quality section
-            Text(
+            const Text(
               'Sleep Quality',
               style: TextStyle(
                 fontSize: 22,
@@ -117,19 +119,19 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Placeholder for Sleep Quality (could be a chart or a value)
-            Text(
+            const Text(
               'Quality Score: 85%',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             // Sleep Stages section
-            Text(
+            const Text(
               'Sleep Stages',
               style: TextStyle(
                 fontSize: 22,
@@ -137,9 +139,9 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Placeholder for Sleep Stages (could be a chart or details)
-            Text(
+            const Text(
               'Deep Sleep: 60%\nLight Sleep: 30%\nREM: 10%',
               style: TextStyle(
                 fontSize: 18,
@@ -154,20 +156,20 @@ class _StatisticScreenState extends State<StatisticScreen> {
 
   // Tính tổng thời gian ngủ
   double _calculateTotalSleep() {
-    List<SleepData> data = isWeekView ? _sleepDataWeek : _sleepDataMonth;
-    return data.fold(0.0, (sum, item) => sum + item.sleepHours);
+    final data = isWeekView ? _sleepDataWeek : _sleepDataMonth;
+    return data.fold(0, (sum, item) => sum + item.sleepHours);
   }
 
   // Tính thời gian ngủ trung bình
   double _calculateAverageSleep() {
-    List<SleepData> data = isWeekView ? _sleepDataWeek : _sleepDataMonth;
-    return (data.fold(0.0, (sum, item) => sum + item.sleepHours) / data.length);
+    final data = isWeekView ? _sleepDataWeek : _sleepDataMonth;
+    return data.fold(0.0, (sum, item) => sum + item.sleepHours) / data.length;
   }
 }
 
 class SleepData {
-  final String day;
-  final double sleepHours;
 
   SleepData(this.day, this.sleepHours);
+  final String day;
+  final double sleepHours;
 }

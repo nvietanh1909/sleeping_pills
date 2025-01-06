@@ -4,6 +4,8 @@ import 'package:sleeping_pills/ui/home/HomeScreen.dart'; // Import the HomeScree
 import 'package:sleeping_pills/ui/register/RegisterScreen.dart'; // Import the RegisterScreen file
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -22,11 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
+              const Center(
                 child: Text(
                   'Sleeping Pills!',
                   style: TextStyle(
@@ -36,14 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              Center(
+              const SizedBox(height: 10),
+              const Center(
                 child: Text(
                   'Please login with your phone number',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               // Phone Number Field
               IntlPhoneField(
                 decoration: InputDecoration(
@@ -62,14 +64,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
               // Sign Up Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Don\'t have an account?',
+                  const Text(
+                    "Don't have an account?",
                     style: TextStyle(color: Colors.grey, fontSize: 14),
                   ),
                   TextButton(
@@ -78,18 +80,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
+                          builder: (context) => const RegisterScreen(),
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Sign Up',
                       style: TextStyle(color: Colors.blueAccent, fontSize: 14),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Login Button
               Center(
@@ -98,27 +100,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     print('Login with phone number: $_phoneNumber');
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
                   },
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                     padding:
-                        EdgeInsets.symmetric(horizontal: 120, vertical: 16),
+                        const EdgeInsets.symmetric(horizontal: 120, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,),
+                  ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),

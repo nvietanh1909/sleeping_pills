@@ -1,0 +1,33 @@
+name: CI/CD for Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  production-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.27.1'
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run tests
+      run: flutter test
+
+    - name: Build application for Production
+      run: flutter build apk --flavor production -t lib/main_prod.dart
+
+    - name: Deploy to Production Server
+      run: |
+        scp ./build/app/outputs/flutter-apk/app-production.apk user@production-server:/path/to/project
+        ssh user@production-server 'pm2 restart app'
