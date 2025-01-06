@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 void main() {
-  runApp(SleepApp());
+  runApp(const SleepApp());
 }
 
 class SleepApp extends StatelessWidget {
+  const SleepApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +15,14 @@ class SleepApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: SleepScreen(),
+      home: const SleepScreen(),
     );
   }
 }
 
 class SleepScreen extends StatefulWidget {
+  const SleepScreen({super.key});
+
   @override
   _SleepScreenState createState() => _SleepScreenState();
 }
@@ -29,9 +33,9 @@ class _SleepScreenState extends State<SleepScreen> {
 
   /// Định dạng thời gian từ giá trị double thành chuỗi HH:MM AM/PM
   String formatTime(double value) {
-    int hours = value.floor();
-    int minutes = ((value - hours) * 60).round();
-    String suffix = hours >= 12 ? "PM" : "AM";
+    var hours = value.floor();
+    final minutes = ((value - hours) * 60).round();
+    final suffix = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12 == 0 ? 12 : hours % 12;
     return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')} $suffix";
   }
@@ -48,7 +52,7 @@ class _SleepScreenState extends State<SleepScreen> {
             color: color,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           time,
           style: TextStyle(
@@ -64,7 +68,7 @@ class _SleepScreenState extends State<SleepScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -75,12 +79,12 @@ class _SleepScreenState extends State<SleepScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Tiêu đề
-              Text(
+              const Text(
                 'Set Your Sleep Schedule',
                 style: TextStyle(
                   fontSize: 24,
@@ -88,7 +92,7 @@ class _SleepScreenState extends State<SleepScreen> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Biểu đồ Sleep Schedule
               SfRadialGauge(
@@ -125,8 +129,8 @@ class _SleepScreenState extends State<SleepScreen> {
                       GaugeRange(
                         startValue: _bedtime,
                         endValue: _alarm,
-                        gradient: SweepGradient(
-                          colors: [Colors.deepPurple, const Color.fromARGB(255, 22, 34, 146)],
+                        gradient: const SweepGradient(
+                          colors: [Colors.deepPurple, Color.fromARGB(255, 22, 34, 146)],
                           stops: [0.0, 1.0],
                         ),
                         startWidth: 30,
@@ -175,7 +179,7 @@ class _SleepScreenState extends State<SleepScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Hiển thị Bedtime và Alarm
               Row(
@@ -193,7 +197,7 @@ class _SleepScreenState extends State<SleepScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // Nút Sleep Now
               ElevatedButton(
@@ -203,18 +207,18 @@ class _SleepScreenState extends State<SleepScreen> {
                     context: context,
                     builder: (context) => AlertDialog(
                       backgroundColor: Colors.grey[900],
-                      title: Text(
+                      title: const Text(
                         'Good Night!',
                         style: TextStyle(color: Colors.white),
                       ),
                       content: Text(
                         'You will sleep for ${sleepDuration.toStringAsFixed(1)} hours.',
-                        style: TextStyle(color: Colors.white70),
+                        style: const TextStyle(color: Colors.white70),
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: Text(
+                          child: const Text(
                             'OK',
                             style: TextStyle(color: Colors.lightBlueAccent),
                           ),
@@ -223,16 +227,16 @@ class _SleepScreenState extends State<SleepScreen> {
                     ),
                   );
                 },
-                child: Text(
-                  'Sleep Now',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
+                ),
+                child: const Text(
+                  'Sleep Now',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ],

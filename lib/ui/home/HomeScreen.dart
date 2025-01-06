@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sleeping_pills/ui/sleep/SleepScreen.dart'; 
 import 'package:sleeping_pills/ui/daily/DailyScreen.dart';
-import 'package:sleeping_pills/ui/statistic/StatisticScreen.dart';
 import 'package:sleeping_pills/ui/profile/ProfileScreen.dart';
+import 'package:sleeping_pills/ui/sleep/SleepScreen.dart';
+import 'package:sleeping_pills/ui/statistic/StatisticScreen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -13,10 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    SleepApp(),
-    DailyScreen(),
-    StatisticScreen(),
-    ProfileScreen(),
+    const SleepApp(),
+    const DailyScreen(),
+    const StatisticScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: const Color.fromARGB(255, 255, 255, 255),
         unselectedItemColor: Colors.grey,
         iconSize: 28,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.nightlight_round),
             label: 'Sleep',
